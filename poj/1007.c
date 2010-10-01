@@ -75,7 +75,6 @@ int main(int argc, const char *argv[])
 			/* puts(dna[i].str); */
 			printf("%s\n", dna[i].str);
 		}
-		printf("\n");
 	}
 	return 0;
 }
