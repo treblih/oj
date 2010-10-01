@@ -20,40 +20,40 @@
 
 #define	SIZE	5200
 
-struct wood {
+static struct stick {
 	int len;
 	int wei;
-};
+} sticks[SIZE];
 
 int cmp_len(const void *a1, const void *b1)
 {
-	const struct wood *a = a1;
-	const struct wood *b = b1;
+	const struct stick *a = a1;
+	const struct stick *b = b1;
 	if (a->len == b->len) {
-		return a->wei > b->wei;
+		return a->wei - b->wei;
 	}
-	return a->len > b->len;
+	return a->len - b->len;
 }
 
 int cmp_wei(const void *a1, const void *b1)
 {
-	const struct wood *a = a1;
-	const struct wood *b = b1;
+	const struct stick *a = a1;
+	const struct stick *b = b1;
 	if (a->wei == b->wei) {
-		return a->len > b->len;
+		return a->len - b->len;
 	}
-	return a->wei > b->wei;
+	return a->wei - b->wei;
 }
 
 int main(int argc, const char *argv[])
 {
-	int n, i, j;
+	int i, j;
+	int cases;
 	int num;
 	int setup_len, setup_wei;
-	struct wood *sticks = calloc(SIZE, sizeof(struct wood));
-	/* while (scanf("%d", &n) != EOF) { */
-		scanf("%d", &n);
-		for (i = 0; i < n; i++) {
+	while (scanf("%d", &cases) != EOF) {
+		/* scanf("%d", &n); */
+		for (i = 0; i < cases; i++) {
 			/* get data */
 			scanf("%d", &num);
 			for (j = 0; j < num; j++) {
@@ -61,7 +61,7 @@ int main(int argc, const char *argv[])
 			}
 
 			/* sort by length mainly, weight secondly */
-			qsort(sticks, num, sizeof(struct wood), cmp_len);
+			qsort(sticks, num, sizeof(struct stick), cmp_len);
 			for (j = 0, setup_len = 1; j < num - 1; ++j) {
 				if (sticks[j].len == sticks[j + 1].len) {
 					continue;
@@ -74,7 +74,7 @@ int main(int argc, const char *argv[])
 				++setup_len;
 			}
 			/* sort by weight mainly, length secondly */
-			qsort(sticks, num, sizeof(struct wood), cmp_wei);
+			qsort(sticks, num, sizeof(struct stick), cmp_wei);
 			for (j = 0, setup_wei = 1; j < num - 1; ++j) {
 				if (sticks[j].wei == sticks[j + 1].wei) {
 					continue;
@@ -87,7 +87,7 @@ int main(int argc, const char *argv[])
 			}
 			printf("%d\n", setup_len > setup_wei ? setup_wei : setup_len);
 		}
-	/* } */
-	free(sticks);
+	}
+	printf("\n");
 	return 0;
 }
