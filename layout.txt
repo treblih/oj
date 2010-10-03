@@ -1,0 +1,20 @@
+exp:
+1. maybe the format needs '\n' at last
+2. scanf regards "aa bb" as 2 word, and auto disgard following '\n'
+3. puts auto add '\n', 
+   int cnt = puts("hello") cnt == 6
+4. bool比int更快
+5. getchar - int; scanf %c - char
+6. when need min, INT32_MAX; when need max, 0
+7. local vars not in consecutive mem, unless declared in an array!!!
+8. YES'\n'NO, no last'\n'
+
+
+prime 
+2739 2262
+
+high precision
+1503
+
+max stream - Ford-Fulkerson
+1273
