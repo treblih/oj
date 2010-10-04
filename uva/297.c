@@ -4,7 +4,7 @@
  *       Filename:  297.c
  *
  *    Description:  Quadtrees
- *    		    recursion
+ *    		    double recursion
  *
  *        Created:  03.10.10
  *       Revision:  
