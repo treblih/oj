@@ -8,6 +8,7 @@ exp:
 6. when need min, INT32_MAX; when need max, 0
 7. local vars not in consecutive mem, unless declared in an array!!!
 8. YES'\n'NO, no last'\n'
+9. bfs与dfs的唯一区别是 FIFO和FILO 把queue换成stack bfs就成了dfs
 
 
 prime 
@@ -18,3 +19,6 @@ high precision
 
 max stream - Ford-Fulkerson
 1273
+
+UVA flood fill
+260 280 352 469 572 601 657 776 782 784 785 871 10267 10336 10946
