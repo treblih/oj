@@ -19,8 +19,7 @@
 /*-----------------------------------------------------------------------------
  *  oo 
  *  ooo
- *   oo	 to black, deal with down  & down-right
- *       to white, deal with right & down-right
+ *   oo	
  *-----------------------------------------------------------------------------*/
 
 #include <stdio.h>
@@ -31,11 +30,12 @@
 
 static int n;
 static int win;
-static char tmp[SIZE];
+/* depending on the statements, 
+ * down -> down-right -> right -> left -> up-left -> up */
+static int dy[ADJACENT] = {1, 1, 0, 0, -1, -1};
+static int dx[ADJACENT] = {0, 1, 1, -1, -1, 0};
 static char graph[SIZE][SIZE];
 static char visit[SIZE][SIZE];
-static int dy[ADJACENT] = {-1, 0, -1, 1, 0, 1};
-static int dx[ADJACENT] = {-1, -1, 0, 0, 1, 1};
 
 enum {
 	FAIL,
@@ -73,23 +73,16 @@ int main(int argc, const char *argv[])
 	int cases = 0;
 	while (scanf("%d", &n) != EOF && n) {
 		++cases;
-		/* getchar(); */
-		fgets(tmp, SIZE, stdin);
-		for (i = 0; i < n; i++) {
-			fgets(graph[i], SIZE, stdin);
-		}
+		getchar();
+		for (i = 0; i < n; i++) fgets(graph[i], SIZE, stdin);
 		/* black(search the first line) mainly */
 		for (i = 0; i < n; i++) {
-			if (*((char *)graph + i) == 'b') {
-				if (dfs(0, i)) {
-					break;
-				}
-			} else {
-				continue;
-			}
+			if (*((char *)graph + i) == 'b')
+				if (dfs(0, i)) break;
+			else continue;
 		}
 		printf("%d %c\n", cases, win ? 'B' : 'W');
-		memset(visit, 0, SIZE * SIZE);
+		memset(visit, 0, n * SIZE);
 		n = win = 0;
 	}
 	return 0;

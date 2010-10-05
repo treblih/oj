@@ -75,14 +75,11 @@ int path(int val)
 int main()
 {
 #ifdef DB
-	fp = fopen("input.txt", "r");
+	fp = fopen("input", "r");
 #endif
 	while (scanf("%d", &wanted) != EOF) {
-		if (path(0) == FOUND) {
-			printf("yes\n");
-		} else {
-			printf("no\n");
-		}
+		if (path(0) == FOUND) 	printf("yes\n");
+		else 			printf("no\n");
 	}
 	return 0;
 }

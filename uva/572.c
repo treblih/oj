@@ -21,7 +21,7 @@
 
 #define	SIZE		128
 
-static int deposits;
+static int deposits, ys, xs;
 static char grid[SIZE][SIZE];
 static char visit[SIZE][SIZE];
 static char queue[SIZE * SIZE];
@@ -35,7 +35,10 @@ void bfs(int y, int x)
 	while (front != rear) {
 		y = *front++;
 		x = *front++;
-		if (grid[y][x] != '@' || visit[y][x]) {
+		if (grid[y][x] != '@'  || 
+		    visit[y][x]        ||
+		    y == -1 || x == -1 ||
+		    y == ys || x == xs) {
 			continue;
 		} else {
 			visit[y][x] = 1;
@@ -64,21 +67,12 @@ void bfs(int y, int x)
 
 int main(int argc, const char *argv[])
 {
-	int y, x, i, j;
-	/* left & top sides, whole */
-	for (i = 0; i < SIZE; i++) grid[0][i] = '*';
-	for (i = 1; i < SIZE; i++) grid[i][0] = '*';
-	while (scanf("%d%d", &y, &x) != EOF && y) {
+	int i, j;
+	while (scanf("%d%d", &ys, &xs) != EOF && ys) {
 		fgets(queue, SIZE, stdin);
-		for (i = 1; i <= y; i++) {
-			fgets(grid[i] + 1, SIZE, stdin);
-		}
-		/* every time we get the boundary, so no memset */
-		/* right & bottom sides */
-		for (i = 1; i <= x + 1; i++) grid[y + 1][i] = '*';
-		for (i = 1; i <= y + 1; i++) grid[i][x + 1] = '*';
-		for (i = 1; i <= y; i++) {
-			for (j = 1; j <= x; j++) {
+		for (i = 0; i < ys; i++) fgets(grid[i], SIZE, stdin);
+		for (i = 0; i < ys; i++) {
+			for (j = 0; j < xs; j++) {
 				if (grid[i][j] == '@' && !visit[i][j]) {
 					bfs(i, j);
 					deposits++;
@@ -88,8 +82,7 @@ int main(int argc, const char *argv[])
 		printf("%d\n", deposits);
 		deposits = 0;
 		/* consecutive in mem */
-		/* memset(visit, 0, (y + 2) * (x + 2)); */
-		memset(visit, 0, (y + 2) * SIZE);
+		memset(visit, 0, ys * SIZE);
 	}
 	return 0;
 }
