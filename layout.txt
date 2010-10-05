@@ -9,6 +9,8 @@ exp:
 7. local vars not in consecutive mem, unless declared in an array!!!
 8. YES'\n'NO, no last'\n'
 9. bfs与dfs的唯一区别是 FIFO和FILO 把queue换成stack bfs就成了dfs
+10. RE - arr[-1]; arr size too small
+11. arr size small - RE/WA
 
 
 prime 

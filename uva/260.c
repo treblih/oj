@@ -24,12 +24,13 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 
 #define	SIZE		256
 #define	ADJACENT	6
 
 static int n;
-static int win;
+static int win, xmin, xmax;
 /* depending on the statements, 
  * down -> down-right -> right -> left -> up-left -> up */
 static int dy[ADJACENT] = {1, 1, 0, 0, -1, -1};
@@ -53,6 +54,8 @@ int dfs(int y, int x)
 		return WIN;
 	}
 	visit[y][x] = 1;
+	if (x < xmin) xmin = x;
+	if (x > xmax) xmax = x;
 	int i;
 	for (i = 0; i < ADJACENT; i++) {
 		int y_adj = y + dy[i], x_adj = x + dx[i];
@@ -69,7 +72,7 @@ int dfs(int y, int x)
 
 int main(int argc, const char *argv[])
 {
-	int i;
+	int i, j;
 	int cases = 0;
 	while (scanf("%d", &n) != EOF && n) {
 		++cases;
@@ -82,7 +85,14 @@ int main(int argc, const char *argv[])
 			else continue;
 		}
 		printf("%d %c\n", cases, win ? 'B' : 'W');
-		memset(visit, 0, n * SIZE);
+		/* memset(visit, 0, n * SIZE); */
+		for (i = 0; i < n; i++) {
+			for (j = xmin; j <= xmax; j++) {
+				visit[i][j] = 0;
+			}
+		}
+		xmax = 0;
+		xmin = INT32_MAX;
 		n = win = 0;
 	}
 	return 0;

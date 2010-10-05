@@ -18,20 +18,17 @@
 
 #include <stdio.h>
 #include <string.h>
-#ifdef DB
-	#define getchar()		getc(fp)
-	#define	scanf(...)		fscanf(fp, __VA_ARGS__)
-	#define stdin			fp
-#endif
+#include <stdint.h>
 
-#define	SIZE		128
+/* not <99, waste alot of my time. fuck... */
+#define	SIZE		450
 #define	ADJACENT	8
 
-static FILE *fp;
+/* for the sake of memset(visit...) */
+static int ymin, ymax, xmin, xmax;
 static int ys, xs, cnt;
 static int dy[ADJACENT] = {1, 0, -1, 0, 1, -1, -1, 1};
 static int dx[ADJACENT] = {0, 1, 0, -1, 1, 1, -1, -1};
-static char tmp[SIZE];
 static char graph[SIZE][SIZE];
 static char visit[SIZE][SIZE];
 
@@ -40,13 +37,17 @@ void dfs(int y, int x)
 	/* no visited && 'W' */
 	cnt++;
 	visit[y][x] = 1;
+	if (y < ymin) ymin = y;
+	if (y > ymax) ymax = y;
+	if (x < xmin) xmin = x;
+	if (x > xmax) xmax = x;
 	int i;
 	for (i = 0; i < ADJACENT; i++) {
 		int y_adj = y + dy[i], x_adj = x + dx[i];
-		if (visit[y_adj][x_adj]        ||
-		    graph[y_adj][x_adj] != 'W' ||
-		    y_adj == -1 || x_adj == -1 ||
-		    y_adj == ys  || x_adj == xs) {
+		if (graph[y_adj][x_adj] != 'W' ||
+		    visit[y_adj][x_adj]        ||
+		    y_adj < 0 || x_adj < 0 ||
+		    y_adj > ys - 1  || x_adj > xs - 1) {
 			continue;
 		}
 		dfs(y_adj, x_adj);
@@ -55,11 +56,8 @@ void dfs(int y, int x)
 
 int main(int argc, const char *argv[])
 {
-#ifdef DB
-	fp = fopen("input", "r");
-#endif
 	int cases, pairs;
-	int y, x, i, ch;
+	int y, x, i, j, k, ch;
 
 	scanf("%d", &cases);
 	/* the following newline of each set will be eaten by != '\n' */
@@ -81,20 +79,19 @@ int main(int argc, const char *argv[])
 		/* end of input, start processing */
 		for (i = 0; i < pairs; i++) {
 			sscanf(graph[ys + i], "%d%d", &y, &x);
-			if (y - 1 > ys || x - 1 > xs) continue;
-			if (graph[y - 1][x - 1] != 'W') puts("0");
-			else { 
-				cnt = 0;
-				dfs(y - 1, x - 1);
-				printf("%d\n", cnt);
-				memset(visit, 0, ys * SIZE);
+			cnt = ymax = xmax = 0;
+			ymin = xmin= INT32_MAX;
+			dfs(y - 1, x - 1);
+			printf("%d\n", cnt);
+			/* memset(visit, 0, ys * SIZE); */
+			for (j = ymin; j <= ymax; j++) {
+				for (k = xmin; k <= xmax; k++) {
+					visit[j][k] = 0;
+				}
 			}
 		}
 		ys = xs = 0;
-		if (cases) {
-			printf("\n");
-			memset(graph, 0, ys * SIZE);
-		}
+		if (cases) printf("\n");
 	}
 	return 0;
 }
