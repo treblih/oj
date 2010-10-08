@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  1118.c
+ *       Filename:  270.c
  *
  *    Description:  force
  *    		    y1/x1 == y2/x2 => x2*y1 == x1*y2 => no double
@@ -17,10 +17,15 @@
  */
 
 #include <stdio.h>
-#include <stdbool.h>
+#ifdef DB
+	#define getchar()		getc(fp)
+	#define	scanf(...)		fscanf(fp, __VA_ARGS__)
+	#define	ungetc(c, stdin)	ungetc(c, fp)
+#endif
 
 #define	SIZE	700
 
+static FILE *fp;
 static struct slope {
 	int x;
 	int y;
@@ -29,35 +34,39 @@ static struct slope {
 
 int main(int argc, const char *argv[])
 {
+#ifdef DB
+	fp = fopen("input", "r");
+#endif
 	int i, x, y, cases, ch, len;
 	int cnt, sentinel;
-	_Bool found = false;
+	int found = 0;
 
 	scanf("%d", &cases);
+	getchar();
+	getchar();
 	while (cases--) {
 		cnt = len = 0;
 		/* load all data */
 		while (1) {
-			if ((ch = getchar()) != '\n') ungetc(ch, stdin);
+			if ((ch = getchar()) != EOF && ch != '\n') ungetc(ch, stdin);
 			else break;
 			scanf("%d%d", &x, &y);
 			/* if there's the same */
-			for (i = 0; slope[i].cnt; i++) {
+			for (i = 0; i < len; i++) {
 				if (slope[i].x * y == slope[i].y * x) {
 					slope[i].cnt++;
-					found = true;
+					found = 1;
 					break;
 				}
 			}
-			if (found) {
-				found = false;
-				continue;
-			} else {
+			if (found) found = 0;
+			else {
 				/* not found, set a new */
 				slope[len].cnt = 1;
 				slope[len].x = x;
 				slope[len++].y = y;
 			}
+			getchar();
 		}
 		/* find max */
 		for (i = 0; sentinel = slope[i].cnt, i < len; i++) {
@@ -65,7 +74,8 @@ int main(int argc, const char *argv[])
 				cnt = sentinel;
 			}
 		}
-		if (cases) printf("%d\n", cnt);
+ 		printf("%d\n", cnt);
+		if (cases) printf("\n");
 	}
 	return 0;
 }
