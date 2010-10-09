@@ -19,10 +19,13 @@ set color
 10004
 
 bfs
-429
+193 429
 
 toposorts
 196 200 280
 
 simulation
 141 417(hash)
+
+dp
+714
