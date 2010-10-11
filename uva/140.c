@@ -4,7 +4,7 @@
  *       Filename:  140.c
  *
  *    Description:  Bandwidth
- *    		    backtrack
+ *    		    backtrack & graph
  *
  *        Created:  09.10.10
  *       Revision:  
@@ -19,97 +19,112 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include <stdbool.h>
-#define MAXN 1048576
-#define Msize 30
-int cmp_int(const void *_a,const void *_b)
+#ifdef DB
+	#define getchar()		getc(fp)
+	#define	scanf(...)		fscanf(fp, __VA_ARGS__)
+	#define	ungetc(c, stdin)	ungetc(c, fp)
+#endif
+static FILE *fp;
+
+#define	SIZE	26
+#define	LEN	256
+
+static bool finished;
+static int cnt, min;
+/* 0 - unused; 1 - shown in str; 2 - used in backtrack */
+static char used[SIZE];		/* 26 chars */
+/* only use cnt elems */
+static char list[SIZE];		/* all used saved here, no search anymore */
+static char solution[SIZE];	/* solution permutations */
+static char wanted[SIZE];	/* wanted solution */
+static char str[LEN];
+static bool graph[SIZE][SIZE];
+
+/* dms - dimension */
+void process_solution()
 {
-	int* a=(int*)_a;
-	int* b=(int*)_b;
-	return *a-*b;
-}
-int N,g[Msize][Msize]={0},b[Msize]={0};
-bool vis[Msize]={false};
-char s[MAXN]={'\0'};
-void Solve(int len)
-{
-	int u[Msize]={0},v[Msize]={0},lu=0,lv=0,cnt=1;
-	N=0;
-	memset(g,0,sizeof(g));
-	memset(vis,false,sizeof(vis));
-	for(int i=0;i<=len;i++)
-	{
-		if(isalpha(s[i]))
-		{
-			if(cnt)
-			{
-				u[lu++]=s[i]-'A';
-				if(!vis[u[lu-1]]) b[N++]=u[lu-1];
-				vis[u[lu-1]]=true;
-			} else {
-				v[lv++]=s[i]-'A';
-				if(!vis[v[lv-1]]) b[N++]=v[lv-1];
-				vis[v[lv-1]]=true;
+	int max, i, j;
+	for (max = 0, i = 0; i < cnt; ++i) {
+		for (j = cnt - 1; j != i; --j) {
+			if (graph[solution[i]][solution[j]]) {
+				/* pruning */
+				if (max < j - i) max = j - i;
+				if (max >= cnt - 1 - i) goto out;
 			}
-		}else if(s[i]==':')
-			cnt=0;
-		else if(s[i]==';'||i==len)
-		{
-			for(int j=0;j<lu;j++)
-				for(int k=0;k<lv;k++)
-					g[u[j]][v[k]]=g[v[k]][u[j]]=1;
-			lv=lu=0;
-			cnt=1;
 		}
 	}
-	qsort(b,N,sizeof(int),cmp_int);
+out:
+	if (min > max) {
+		min = max;
+		for (i = 0; i < cnt; ++i) wanted[i] = solution[i];
+		/* 2 is ideal smallest bandwidth */
+		if (min == 2) finished = true;
+	}
 }
-int a[Msize]={0},mink,minc,k,w[Msize]={0};
-void dfs(int cur)
+
+void construct_candidates(int dms, int candidates[], int *n)
 {
-	int u,v;
-	for(int i=0;i<N;i++)
-		if(!vis[i])
-		{
-			a[cur]=i;
-			vis[i]=true;
-			if(cur==N-1)
-			{
-				k=1;
-				for(int j=0;j<N-1;j++)
-				{
-					for(int l=j+1;l<N;l++)
-					{
-						u=b[a[j]];
-						v=b[a[l]];
-						if(g[u][v]&&k<l-j)
-							k=l-j;
-					}
-					if(mink<=k) break;
-				}
-				if(mink>k)
-				{
-					mink=k;
-					for(int j=0;j<N;j++) w[j]=b[a[j]];
+	int i, j;
+	*n = cnt - dms;
+	for (i = 0, j = 0; i < cnt; ++i) {
+		/* pruning */
+		if (used[list[i]] == 1) candidates[j++] = list[i];
+	}
+}
+
+void backtrack(int dms)
+{
+	int candidates[SIZE];
+	int ncandidate, i;
+	if (dms == cnt) process_solution();
+	else {
+		construct_candidates(dms, candidates, &ncandidate);
+		for (i = 0; i < ncandidate; ++i) {
+			solution[dms] = candidates[i];
+			used[candidates[i]] = 2;	/* set */
+			backtrack(dms + 1);
+			if (finished) return ;
+			used[candidates[i]] = 1;	/* unset */
+		}
+	}
+}
+
+int main(int argc, const char *argv[])
+{
+#ifdef DB
+	fp = fopen("input", "r");
+#endif
+	int ch1, ch2, i;
+	char *token;
+#ifdef DB
+	while (fgets(str, LEN, fp)) {
+#else
+	while (fgets(str, LEN, stdin)) {
+#endif
+		if (str[0] == '#') break;
+		/* scan the string */
+		for (token = str; (ch1 = *token); ++token) {
+			if (token[1] == ':') {
+				used[ch1 -= 0x41] = 1;
+				for (token += 2; (ch2 = *token) != ';' && ch2 != '\n'; 
+				     ++token) {
+					used[ch2 -= 0x41] = 1;
+					/* ch1 & ch2 are 0-25 now */
+					graph[ch1][ch2] = graph[ch2][ch1] = true;
 				}
 			}
-			else dfs(cur+1);
-			vis[i]=false;
 		}
-}
-int main()
-{
-	while(scanf("%s",s)==1)
-	{
-		if(s[0]=='#') break;
-		Solve(strlen(s));
-		memset(vis,false,sizeof(vis));
-		mink=MAXN;
-		dfs(0);
-		for(int i=0;i<N;i++)
-			printf("%c ",w[i]+'A');
-		printf("-> %d\n",mink);
+		for (cnt = 0, i = 0; i < SIZE; ++i) if (used[i]) list[cnt++] = i;
+		min = cnt;
+		backtrack(0);
+		for (i = 0; i < cnt; ++i) {
+			printf("%c ", wanted[i] + 0x41);
+		}
+		printf("-> %d\n", min);
+		memset(used, 0, SIZE);
+		memset(graph, false, SIZE * SIZE);
+		finished = false;
 	}
 	return 0;
 }
