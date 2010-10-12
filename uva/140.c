@@ -68,24 +68,24 @@ void construct_candidates(int dms, int candidates[], int *n)
 	int i, j;
 	*n = cnt - dms;
 	for (i = 0, j = 0; i < cnt; ++i) {
-		/* pruning */
 		if (used[list[i]] == 1) candidates[j++] = list[i];
 	}
 }
 
 void backtrack(int dms)
 {
-	int ncandidate, i;
+	int ncandidate, i, tmp;
 	int candidates[SIZE];
 	if (dms == cnt) process_solution();
 	else {
 		construct_candidates(dms, candidates, &ncandidate);
 		for (i = 0; i < ncandidate; ++i) {
-			solution[dms] = candidates[i];
-			used[candidates[i]] = 2;	/* set */
+			tmp = candidates[i];
+			solution[dms] = tmp;
+			used[tmp] = 2;	/* set */
 			backtrack(dms + 1);
 			if (finished) return ;
-			used[candidates[i]] = 1;	/* unset */
+			used[tmp] = 1;	/* unset */
 		}
 	}
 }

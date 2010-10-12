@@ -10,6 +10,8 @@ exp:
 10. RE - arr[-1]; arr size too small
 11. arr size small - RE/WA
 12. one DAG has mutiple toposorts
+13. no use of float, for the sake of precision, error result
+14. -Wall -O2 must!!
 
 
 flood fill
@@ -19,7 +21,7 @@ set color
 10004
 
 bfs
-193 429
+429
 
 toposorts
 10305 196 124 200 280
@@ -28,7 +30,7 @@ simulation
 141 417(hash)
 
 dp
-714 10625 10285(dfs)
+714 10625 10285(dfs) 10280(bsearch)
 
 maxflow graph
 10983 10330
@@ -39,3 +41,15 @@ string
 independent set / graph
 193
 http://www.cnblogs.com/niuchenglei/archive/2010/09/20/1831446.html
+
+graph
+315(articulation points, poj 1144, discuss)
+
+factors of a num
+307
+
+union find
+459
+
+chess polynomial
+861(bishops)
