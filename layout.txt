@@ -22,16 +22,20 @@ bfs
 193 429
 
 toposorts
-196 124 200 280
+10305 196 124 200 280
 
 simulation
 141 417(hash)
 
 dp
-714 10625
+714 10625 10285(dfs)
 
 maxflow graph
-10983
+10983 10330
 
 string
-10340
+10340 10188
+
+independent set / graph
+193
+http://www.cnblogs.com/niuchenglei/archive/2010/09/20/1831446.html

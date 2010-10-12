@@ -75,8 +75,8 @@ void construct_candidates(int dms, int candidates[], int *n)
 
 void backtrack(int dms)
 {
-	int candidates[SIZE];
 	int ncandidate, i;
+	int candidates[SIZE];
 	if (dms == cnt) process_solution();
 	else {
 		construct_candidates(dms, candidates, &ncandidate);
