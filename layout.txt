@@ -51,10 +51,19 @@ factors of a num
 307
 
 union find
-459
+459 10583
 
 chess polynomial
 861(bishops)
 
 queens
 10094 10401 10513 11085 11195(tle)
+
+backtrack
+441 598 630 989(sodu)
+
+shortest path
+10801
+
+set
+10815
