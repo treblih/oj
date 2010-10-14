@@ -1,4 +1,5 @@
-*/*.gcc
-*/a.out
-*/core
+*.gcc
+*a.out
+*core
 *input
+*.o

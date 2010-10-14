@@ -4,7 +4,7 @@
  *       Filename:  548.c
  *
  *    Description:  Tree
- *    		    pre/in/post-order & recursion
+ *    		    post + in -> least path & recursion
  *
  *    		    all values will be different
  *
@@ -52,9 +52,7 @@ void path(int in_start, int in_end, int post_start, int post_end, int sum)
 	/* if root is the leftmost one in inorder(no left child namely), 
 	 * while inorder doesn't have only one element,
 	 * post_start > post_end */
-	if (post_start > post_end) {
-		return ;
-	}
+	if (post_start > post_end) return;
 	sum += root;
 	/* i'm a piece of leaf */
 	if (post_start == post_end) {
