@@ -51,7 +51,7 @@ factors of a num
 307
 
 union find
-459 10583
+615 459 10583
 
 chess polynomial
 861(bishops)
@@ -67,3 +67,6 @@ shortest path
 
 set
 10815
+
+floyd-warshall
+280	http://www.cppblog.com/syhd142/articles/126461.html

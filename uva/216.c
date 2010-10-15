@@ -121,3 +121,6 @@ int main(int argc, const char *argv[])
 	}
 	return 0;
 }
+
+for (...; ...; )
+	graph[solutions[i]][solutions[i++]];
