@@ -1,21 +1,3 @@
-exp:
-1. maybe the format needs '\n' at last
-2. scanf regards "aa bb" as 2 word, and auto disgard following '\n'
-3. puts auto add '\n', 
-   int cnt = puts("hello") cnt == 6
-4. bool比int更快 
-5. getchar - int; scanf %c - char 
-6. when need min, INT32_MAX; when need max, 0
-7. local vars not in consecutive mem, unless declared in an array!!!
-8. YES'\n'NO, no last'\n'
-9. bfs与dfs区别 FIFO和FILO 把queue换成stack bfs就成了dfs
-10. RE - arr[-1]; arr size too small
-11. arr size small - RE/WA
-12. one DAG has mutiple toposorts
-13. no use of float, for the sake of precision, error result
-14. -Wall -O2 must!!
-
-
 flood fill
 260 280 352 469 572 601 657 776 782 784 785 871 10267 10336 10946
 
@@ -70,3 +52,6 @@ set
 
 floyd-warshall
 280	http://www.cppblog.com/syhd142/articles/126461.html
+
+bignum
+485 495 623 10334
