@@ -4,7 +4,7 @@
  *       Filename:  369.c
  *
  *    Description:  Combinations
- *    		    math
+ *    		    math & dp
  *
  *        Created:  16.10.10
  *       Revision:  

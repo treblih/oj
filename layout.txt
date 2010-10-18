@@ -8,13 +8,13 @@ bfs
 429
 
 toposorts
-10305 196 124 200 280
+10305 196 124 200 280 10672
 
 simulation
 141 417(hash)
 
 dp
-714 10625 10285(dfs) 10280(bsearch)
+714 10625 10285(dfs) 10280(bsearch) 10690(knapsack)
 
 maxflow graph
 10983 10330
@@ -54,4 +54,15 @@ floyd-warshall
 280	http://www.cppblog.com/syhd142/articles/126461.html
 
 bignum
-485 495 623 10334
+485 623 10183(PC 116, try to avoid high precision)
+
+trie
+11362	http://www.chenyajun.com/2010/04/11/4796
+
+subset / coins
+147 357 674 http://www.algorithmist.com/index.php/Subset_Sum
+
+prime 
+10699
+
+tree 679 10410
