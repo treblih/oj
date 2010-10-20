@@ -60,9 +60,9 @@ trie
 11362	http://www.chenyajun.com/2010/04/11/4796
 
 subset / coins
-147 357 674 http://www.algorithmist.com/index.php/Subset_Sum
+147 166 357 674 http://www.algorithmist.com/index.php/Subset_Sum
 
 prime 
-10699
+136(ugly number) 10699
 
 tree 679 10410
