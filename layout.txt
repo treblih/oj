@@ -14,7 +14,7 @@ simulation
 141 417(hash)
 
 dp
-707 714 10625 10285(dfs) 10280(bsearch) 10690(knapsack) 10604 10702(TSP)
+707 714 10625 10285(dfs) 10280(bsearch) 10690(knapsack) 10604 10702(TSP) 11782(tree)
 
 maxflow graph
 10983 10330
@@ -33,7 +33,7 @@ factors of a num
 307
 
 union find
-615 459 10583
+793 615 459 10583
 
 chess polynomial
 861(bishops)
@@ -69,3 +69,6 @@ tree 679 10410
 
 Chinese post man
 10296
+
+Dijkstra's permutation algorithm.
+729

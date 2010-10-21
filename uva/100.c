@@ -74,3 +74,59 @@ long long int main(long long int argc, const char *argv[])
 	}
 	return 0;
 }
+
+#include <stdio.h>
+#define MAX 100
+ 
+void main(void)
+{
+    int Array[MAX][3];
+    int Length;
+    int Start;
+    int End;
+    int Count = 0;
+    long int N;
+ 
+    int Temp;
+    int J;
+ 
+    /*Read input*/
+    while (scanf("%d %d", &Start, &End) != EOF) {
+        Count++;
+        Array[Count][0] = Start;
+        Array[Count][1] = End;
+    };
+ 
+    /*Calculate maximum cycle length*/
+    for (Temp = 1; Temp <= Count; Temp++) {
+        if (Array[Temp][0] < Array[Temp][1]) {
+            Start = Array[Temp][0];
+            End   = Array[Temp][1];
+        }
+        else {
+            Start = Array[Temp][1];
+            End   = Array[Temp][0];
+        }
+ 
+        Array[Temp][2] = 0; /*max length*/
+        for (J = Start; J <= End; J++) {
+            Length = 0;
+            /*Calculate cycle length*/
+            for (N = J; N != 1;) {
+                Length++;
+                if (N % 2 == 0)
+                    N = N / 2;
+                else
+                    N = 3 * N + 1;
+            }
+            Length++;
+ 
+            if (Length > Array[Temp][2])
+                Array[Temp][2] = Length;
+        }
+    }
+ 
+    /*output the result*/
+    for (Temp = 1; Temp <= Count; Temp++)
+        printf("%d %d %d\n", Array[Temp][0], Array[Temp][1], Array[Temp][2]);
+}
