@@ -14,7 +14,7 @@ simulation
 141 417(hash)
 
 dp
-714 10625 10285(dfs) 10280(bsearch) 10690(knapsack)
+707 714 10625 10285(dfs) 10280(bsearch) 10690(knapsack) 10604 10702(TSP)
 
 maxflow graph
 10983 10330
@@ -63,6 +63,9 @@ subset / coins
 147 166 357 674 http://www.algorithmist.com/index.php/Subset_Sum
 
 prime 
-136(ugly number) 10699
+136(ugly number) 10699 10299 10179
 
 tree 679 10410
+
+Chinese post man
+10296
