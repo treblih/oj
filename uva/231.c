@@ -4,7 +4,7 @@
  *       Filename:  231.c
  *
  *    Description:  Testing the CATCHER
- *    		    dp & lis
+ *    		    dp & lds
  *
  *        Created:  21.10.10
  *       Revision:  
