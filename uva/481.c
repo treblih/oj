@@ -26,14 +26,15 @@
 #ifdef DB
 	#define getchar()		getc(fp)
 	#define	scanf(...)		fscanf(fp, __VA_ARGS__)
-	#define	ungetc(c, stdin)	ungetc(c, fp)
+	#undef	stdin
+	#define	stdin			fp
 #endif
 static FILE *fp;
 
 static int input[SIZE];
 /* LIS is only for the total count */
 static int lis[SIZE];
-static int pos[SIZE];
+static int dp[SIZE];
 
 int bsearch(int wanted, int high)
 {
@@ -56,28 +57,28 @@ int main(int argc, const char *argv[])
 	int i, p, tmp;
 	int idx = 0, lis_idx = 1;
 	while (scanf("%d", &input[++idx]) != EOF) ;
-	lis[1] = input[1], pos[1] = 1;
+	lis[1] = input[1], dp[1] = 1;
 	FORI(i, 1, i <= idx) {
 		/* add bebind */
 		if (lis[lis_idx] < input[i]) {
 			lis[++lis_idx] = input[i];
-			pos[i] = lis_idx;
+			dp[i] = lis_idx;
 		}
 		/* no need to bsearch */
-		else if (lis[lis_idx] == input[i]) pos[i] = lis_idx;
+		else if (lis[lis_idx] == input[i]) dp[i] = lis_idx;
 		/* find the right position to substitute */
 		else {
 			p = bsearch(input[i], lis_idx);
 			lis[p] = input[i];
 			/* record every elem's position in the LIS list */
-			pos[i] = p;
+			dp[i] = p;
 		}
 	}
 	/* count is LIS */
 	printf("%d\n-\n", lis_idx);
 	tmp = lis_idx;
 	while (lis_idx--) {
-		while (pos[i] != lis_idx) --i;
+		while (dp[i] != lis_idx) --i;
 		/* indeed we need stack 
 		 * but lis is useless, make it useful again */
 		lis[lis_idx] = input[i];

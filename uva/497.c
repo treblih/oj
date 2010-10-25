@@ -26,13 +26,14 @@
 #ifdef DB
 	#define getchar()		getc(fp)
 	#define	scanf(...)		fscanf(fp, __VA_ARGS__)
-	#define	stdin			fp
+	#undef	stdin
+	#define stdin			fp
 #endif
 static FILE *fp;
 static char tmp[SIZE];
 static int input[SIZE];
 static int lis[SIZE];
-static int pos[SIZE];
+static int dp[SIZE];
 
 int bsearch(int wanted, int high)
 {
@@ -62,23 +63,23 @@ int main(int argc, const char *argv[])
 			sscanf(tmp, "%d", &input[++cnt]);
 		/* load done, processing */
 		lis[1] = input[1];
-		pos[1] = lis_idx = 1;
+		dp[1] = lis_idx = 1;
 		FORI(i, 1, i <= cnt) {
 			if (lis[lis_idx] < input[i]) {
 				lis[++lis_idx] = input[i];
-				pos[i] = lis_idx;
+				dp[i] = lis_idx;
 			}
-			else if (lis[lis_idx] == input[i]) pos[i] = lis_idx;
+			else if (lis[lis_idx] == input[i]) dp[i] = lis_idx;
 			else {
 				p = bsearch(input[i], lis_idx);	
 				lis[p] = input[i];
-				pos[i] = p;
+				dp[i] = p;
 			}
 		}
 		printf("Max hits: %d\n", lis_idx);
 		bak = lis_idx;
 		while (lis_idx--) {
-			while (pos[i] != lis_idx) --i;
+			while (dp[i] != lis_idx) --i;
 			/* indeed we need stack 
 			 * but lis is useless, make it useful again */
 			lis[lis_idx] = input[i];

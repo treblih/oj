@@ -72,3 +72,12 @@ Chinese post man
 
 Dijkstra's permutation algorithm.
 729
+
+catalan
+10007
+
+1cs
+1006
+
+QA
+615 729 10004 11456 11790

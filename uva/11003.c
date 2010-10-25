@@ -4,8 +4,8 @@
  *       Filename:  11003.c
  *
  *    Description:  Boxes
- *    		    dp & lds
- *    		    load[i]=min{load[i-1]-weight[i], load[i]}
+ *    		    matrix dp & lis
+ *    		    cpct[i]=min{cpct[i-1]-wght[i], cpct[i]}
  *
  *        Created:  23.10.10
  *       Revision:  
@@ -18,7 +18,8 @@
  */
 
 #include <stdio.h>
-#define	SIZE	1010
+#include <string.h>
+#define	SIZE	1024
 #define	FORI(i, val, cond)	for ((i) = (val); (cond); ++(i))	
 #define	FORIZ(i, cond)		FORI((i), 0, (cond))
 #define	FORD(i, val, cond)	for ((i) = (val); (cond); --(i))
@@ -36,31 +37,37 @@
 	#define stdin			fp
 #endif
 static FILE *fp;
-static int cnt;
-static int weight[SIZE];
-static int load[SIZE];
-
-void lis_process()
-{
-	int i, tmp;
-	FORI(i, 1, i < cnt) {
-		if (/* condition */) {
-			/* code */
-		}
-	}
-	if (i == cnt) printf("%d\n", level);
-}
+static int wght[SIZE];
+static int cpct[SIZE];
+static int dp[SIZE][3010];
 
 int main(int argc, const char *argv[])
 {
 #ifdef DB
 	fp = fopen("input", "r");
 #endif
-	int i, level, tmp;
+	int i, j, cnt, tmp, max, max_cp, level, left_capacity;
 	while (scanf("%d", &cnt), cnt) {
-		FORIZ(i, i < cnt) scanf("%d%d", &weight[i], &load[i]);
-		lis[0] = level = 1;
-		lis_process();
+		max_cp = 0;
+		FORIZ(i, i < cnt) {
+			scanf("%d%d", &wght[i], &tmp);
+			cpct[i] = tmp;
+			dp[i][tmp] = 1;		/* at least can stack itself */
+			max_cp = MAX(max_cp, tmp);
+		}
+		FORI(i, 1, i < cnt) FORI(j, 1, j <= max_cp) {
+			/* on a box */
+			if ((level = dp[i-1][j]) && j >= wght[i]) {
+				left_capacity = MIN(cpct[i], j - wght[i]);
+				dp[i][left_capacity] = MAX(dp[i][left_capacity], level + 1);
+			}
+			/* every time only cmpr with i-1, so inherit */
+			dp[i][j] = MAX(dp[i][j], dp[i-1][j]);
+		}
+		max = 0;
+		FORIZ(j, j <= max_cp) max = MAX(max, dp[cnt-1][j]);
+		printf("%d\n", max);
+		memset(dp, 0, (cnt * 3010) << 2);
 	}
 	return 0;
 }
