@@ -80,4 +80,4 @@ catalan
 1006
 
 QA
-615 729 10004 11456 11790
+615 729 10004 11456 11790 11115(combinatorics) 11115(passed all cases, WA still..)
