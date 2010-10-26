@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  673.c
+ *       Filename:  482.c
  *
- *    Description:  Parentheses balance
- *    		    string
+ *    Description:  Permutation Arrays
+ *    		    hash & string
  *
- *        Created:  10.10.10
+ *        Created:  26.10.10
  *       Revision:  
  *       Compiler:  GCC 4.4
  *
@@ -17,13 +17,12 @@
  */
 
 #include <stdio.h>
-#include <string.h>
-#define	SIZE	256
+#include <ctype.h>
+#define	SIZE	1000000
 #define	FORI(i, val, cond)	for ((i) = (val); (cond); ++(i))	
 #define	FORIZ(i, cond)		FORI((i), 0, (cond))
 #define	FORD(i, val, cond)	for ((i) = (val); (cond); --(i))
-#define	FORDZ(i, val)		FORD((i), (val), i >= 0)
-#define ZERO(a)			memset((a), 0, sizeof(a))
+#define	FORDZ(i, cond)		FORD((i), 0, (cond))
 #define	MAX(a, b)		({__typeof__ (a) ta = (a);\
 			  	__typeof__ (b) tb = (b);\
 			  	ta > tb ? ta : tb;})
@@ -37,32 +36,35 @@
 	#define stdin			fp
 #endif
 static FILE *fp;
-static char str[SIZE];
-static int stk[SIZE];
+/* 512 is for 1 number which has at most 512 digits */
+static char str[SIZE][512];
+static char tmp[SIZE];
+static int hash[SIZE];
 
 int main(int argc, const char *argv[])
 {
 #ifdef DB
 	fp = fopen("input", "r");
 #endif
-	int cases, idx, ch;
+	int i, cases, cnt, ch, fst = 1;
 	char *p;
-	scanf("%d\n", &cases);
+	scanf("%d", &cases);
 	while (cases--) {
-		fgets(str, SIZE, stdin);
-		p = str, idx = -1;
-		while ((ch = *p++) != '\n') {
-			if (ch == '(' || ch == '[') stk[++idx] = ch;
-			else if (ch == ')' && (stk[idx] != '(' || idx == -1))
-				{idx = 0;goto out;}
-			else if (ch == ']' && (stk[idx] != '[' || idx == -1))
-				{idx = 0;goto out;}
-			else --idx;
+		if (fst) fst = 0;
+		else putchar('\n');
+		/* tmp will be "\n\n" */
+		scanf("%[\n]", tmp);
+		fgets(tmp, SIZE, stdin);
+		cnt = 0;
+		FORI(p, tmp, (ch = *p) != '\n') {
+			if (ch == ' ') continue;
+			sscanf(p, "%d", &hash[cnt++]);
+			do ch = *++p; while (isdigit(ch));
+			--p;	/* for loop has a ++p */
 		}
-out:
-		if (idx != -1) puts("No");
-		else puts("Yes");
-		ZERO(stk);
+		/* hash starts from 1 */
+		FORIZ(i, i < cnt) scanf("%s", str[hash[i]]);
+		FORI(i, 1, i <= cnt) printf("%s\n", str[i]);
 	}
 	return 0;
 }
