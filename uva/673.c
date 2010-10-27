@@ -4,7 +4,7 @@
  *       Filename:  673.c
  *
  *    Description:  Parentheses balance
- *    		    string
+ *    		    stack
  *
  *        Created:  10.10.10
  *       Revision:  
@@ -62,7 +62,6 @@ int main(int argc, const char *argv[])
 out:
 		if (idx != -1) puts("No");
 		else puts("Yes");
-		ZERO(stk);
 	}
 	return 0;
 }

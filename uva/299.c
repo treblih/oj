@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  10608.c
+ *       Filename:  299.c
  *
- *    Description:  Friends
- *    		    union-find set
+ *    Description:  Train Swapping
+ *    		    bubble sort
  *
- *        Created:  26.10.10
+ *        Created:  27.10.10
  *       Revision:  
  *       Compiler:  GCC 4.4
  *
@@ -18,7 +18,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#define	SIZE	30010
+#define	SIZE	64
 #define	FORI(i, val, cond)	for ((i) = (val); (cond); ++(i))	
 #define	FORIZ(i, cond)		FORI((i), 0, (cond))
 #define	FORD(i, val, cond)	for ((i) = (val); (cond); --(i))
@@ -34,22 +34,22 @@
 	#define stdin			fp
 #endif
 static FILE *fp;
-static int max;
-static int people[SIZE];
-static int cnt[SIZE];
 
-void set_union(int g1, int g2, int n)
+int bubble_sort(int list[], int n)
 {
-	int cnt1, cnt2, i;
-	/* same cnt */
-	if (g1 == g2) return;
-	cnt1 = cnt[g1];
-	cnt2 = cnt[g2];
-	/* make sure g1 is the smaller */
-	cnt1 >= cnt2 ? 1 : SWAP(g1, g2);
-	FORI(i, 1, i <= n) if (people[i] == g2) people[i] = g1;
-	max = MAX(max, cnt[g1] += cnt[g2]);
-	cnt[g2] = 0;
+	int i, j, noswap, cnt = 0;
+	FORD(i, n - 1, i > 0) {
+		noswap = 1;
+		FORIZ(j, j < i) {
+			if (list[j] > list[j+1]) {
+				SWAP(list[j], list[j+1]);
+				noswap = 0;
+				++cnt;
+			}
+		}
+		if (noswap) break;
+	}
+	return cnt;
 }
 
 int main(int argc, const char *argv[])
@@ -57,32 +57,14 @@ int main(int argc, const char *argv[])
 #ifdef DB
 	fp = fopen("input", "r");
 #endif
-	int i, cases, a, b, n, rlt, no, g1, g2;
+	int i, cases, l;
+	int train[SIZE];
 	scanf("%d", &cases);
 	while (cases--) {
-		no = 0;
-		scanf("%d%d", &n, &rlt);
-		if (!n) {puts("0"); continue;}
-		max = 1;
-		FORIZ(i, i < rlt) {
-			scanf("%d%d", &a, &b);
-			g1 = people[a], g2 = people[b];
-			if (g1 && g2) set_union(g1, g2, n);
-			else if (!g1 && !g2){
-				people[a] = people[b] = ++no;
-				if (a == b) cnt[no] = 1;
-				else cnt[no] = 2;
-				max = MAX(max, cnt[no]);
-			/* one empty one filled */
-			} else {
-				g1 = g1 ? g1 : g2;
-				people[a] = people[b] = g1;
-				max = MAX(max, cnt[g1] += 1);
-			}
-		}
-		printf("%d\n", max);
-		memset(people, 0, (n + 10) << 2);
-		memset(cnt, 0, (no + 10) << 2);
+		scanf("%d", &l);
+		FORIZ(i, i < l) scanf("%d", &train[i]);
+		printf("Optimal train swapping takes %d swaps.\n",
+			bubble_sort(train, l));
 	}
 	return 0;
 }
