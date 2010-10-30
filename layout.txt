@@ -71,7 +71,7 @@ Chinese post man
 10296
 
 Dijkstra's permutation algorithm.
-729
+146 729
 
 catalan
 10007
@@ -79,8 +79,11 @@ catalan
 1cs
 1006
 
-QA
-615 729 10004 11456 11790 11115(combinatorics) 11115(passed all cases, WA still..)
-
 greedy+bsearch
 10801 10619
+
+MST
+908
+
+QA
+615 729 10004 11456 11790 11115(combinatorics) 11115(passed all cases, WA still..) 336(warshall)
