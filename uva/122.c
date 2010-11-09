@@ -88,3 +88,18 @@ int main(int argc, const char *argv[])
 	}
 	return 0;
 }
+int main(int argc, const char *argv[])
+{
+    SDF_PROXY
+        sdf
+        return 0;
+}
+int main(int argc, const char *argv[])
+{
+        if (1) {
+            do {
+            s   a       sdfs    aaa     aaaa    
+            } while (1);
+        }
+        return 0;
+}
